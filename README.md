@@ -4,7 +4,7 @@ A RESTful API built with Express.js that supports standard CRUD operations, midd
 
 ---
 
-## 🚀 Features
+## Features
 
 - **CRUD**: Create, Read, Update, Delete products
 - **Middleware**: Logging, authentication, validation, error handling
@@ -13,7 +13,7 @@ A RESTful API built with Express.js that supports standard CRUD operations, midd
 
 ---
 
-## 🛠️ Setup
+## Setup
 
 1. **Clone the repository**
    ```bash
@@ -40,7 +40,7 @@ A RESTful API built with Express.js that supports standard CRUD operations, midd
 
 ---
 
-## 🔑 Authentication
+## Authentication
 
 All `/api` routes require an API key in the request header:
 
@@ -50,7 +50,7 @@ x-api-key: your_api_key_here
 
 ---
 
-## 📦 Product Object
+## Product Object
 
 ```json
 {
@@ -65,7 +65,7 @@ x-api-key: your_api_key_here
 
 ---
 
-## 📚 API Endpoints
+## API Endpoints
 
 ### Hello World
 
@@ -114,7 +114,7 @@ x-api-key: your_api_key_here
 
 ---
 
-## 🧪 Example Requests
+## Example Requests
 
 **Create a product**
 ```bash
@@ -131,7 +131,7 @@ curl -H "x-api-key: your_api_key_here" http://localhost:3000/api/products
 
 ---
 
-## ⚠️ Error Handling
+## Error Handling
 
 - Returns JSON error responses with appropriate HTTP status codes.
 - Example:
