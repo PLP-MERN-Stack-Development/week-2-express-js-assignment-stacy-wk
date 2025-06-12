@@ -1,71 +1,51 @@
-// server.js - Starter Express server for Week 2 assignment
-
-// Import required modules
 const express = require('express');
 const bodyParser = require('body-parser');
-const { v4: uuidv4 } = require('uuid');
 
-// Initialize Express app
+// Create an Express server
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware setup
-app.use(bodyParser.json());
 
-// Sample in-memory products database
-let products = [
-  {
-    id: '1',
-    name: 'Laptop',
-    description: 'High-performance laptop with 16GB RAM',
-    price: 1200,
-    category: 'electronics',
-    inStock: true
-  },
-  {
-    id: '2',
-    name: 'Smartphone',
-    description: 'Latest model with 128GB storage',
-    price: 800,
-    category: 'electronics',
-    inStock: true
-  },
-  {
-    id: '3',
-    name: 'Coffee Maker',
-    description: 'Programmable coffee maker with timer',
-    price: 50,
-    category: 'kitchen',
-    inStock: false
-  }
-];
+// Middlewares
+const logger = require('./middleware/logger');             // Logs method, URL, and timestamp
+const auth = require('./middleware/auth');                 // Checks for x-api-key in headers
+const errorHandler = require('./middleware/errorHandler'); // Handles all errors globally
 
-// Root route
+app.use(logger);         // Logs every request
+app.use(bodyParser.json()); // Parses incoming JSON into req.body
+app.use(auth);           // Auth check: expects x-api-key header
+
+
+
+
 app.get('/', (req, res) => {
-  res.send('Welcome to the Product API! Go to /api/products to see all products.');
+  res.send('Welcome to the Product API! Visit /api/products to get started.');
 });
 
-// TODO: Implement the following routes:
-// GET /api/products - Get all products
-// GET /api/products/:id - Get a specific product
-// POST /api/products - Create a new product
-// PUT /api/products/:id - Update a product
-// DELETE /api/products/:id - Delete a product
 
-// Example route implementation for GET /api/products
-app.get('/api/products', (req, res) => {
-  res.json(products);
-});
 
-// TODO: Implement custom middleware for:
-// - Request logging
-// - Authentication
-// - Error handling
+// Routes
+const productRoutes = require('./routes/products'); // All product CRUD + advanced features
+const searchRoutes = require('./routes/search');    // Search by name
+const statsRoutes = require('./routes/stats');      // Product statistics
 
-// Start the server
+app.use('/api/products', productRoutes); // All product-related routes
+app.use('/api/search', searchRoutes);    // GET /api/search?name=...
+app.use('/api/products/stats', statsRoutes); // GET stats like count by category
+
+
+
+// Error Handler
+app.use(errorHandler); // Catches any thrown errors and responds with proper messages
+
+
+
+// Fire up the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running at: http://localhost:${PORT}`);
 });
 
-// Export the app for testing purposes
+
+
+// Exporting
 module.exports = app; 
